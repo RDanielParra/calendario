@@ -1,13 +1,23 @@
-# Redeploya cada día a las 00:10 hora Nicaragua (06:10 UTC) para publicar el día nuevo.
-# Secret necesario: VERCEL_DEPLOY_HOOK (Vercel → Settings → Git → Deploy Hooks)
 name: daily-deploy
 on:
   schedule:
     - cron: "10 6 * * *"
-    - cron: "40 6 * * *"   # respaldo por si el primero se retrasa
+    - cron: "40 6 * * *"   # respaldo
   workflow_dispatch:
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - run: curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
+      - name: Redeploy en Vercel
+        run: curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
+
+      - name: Avisar a Piojo
+        if: github.event.schedule != '40 6 * * *'
+        run: |
+          DAY=$(TZ=America/Managua date +%-d); MONTH=$(TZ=America/Managua date +%-m)
+          if [ "$MONTH" = "12" ]; then MSG="Se publicó el día $DAY 🎄"; else MSG="Deploy diario ejecutado ($DAY/$MONTH)"; fi
+          curl -s -H "Title: Calendario" -d "$MSG" "https://ntfy.sh/${{ secrets.NTFY_TOPIC }}"
+
+      - name: Avisar si falló
+        if: failure()
+        run: curl -s -H "Title: Fallo el deploy" -H "Priority: high" -d "Falló la action, publica el día a mano ⚠️" "https://ntfy.sh/${{ secrets.NTFY_TOPIC }}"
