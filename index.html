@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffe9f0">
+<title>Calendario de Adviento ✨</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💗</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#fffaf6;--pink:#f9c9d6;--pink2:#f4a9be;--rose:#e57fa0;--rose-d:#b84a6e;--ink:#5a3a48;--gold:#e8c39e;--sage:#b9d8c4;--lilac:#e6d4f2;--soft:0 8px 22px rgba(184,74,110,.16)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:'Quicksand',system-ui,sans-serif;font-size:17px;
+  background:linear-gradient(180deg,#ffe6ee 0,#fff0f3 32%,#fff8f4 70%,#fffaf6 100%);background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:radial-gradient(rgba(244,169,190,.28) 1.4px,transparent 1.8px);background-size:22px 22px}
+#snow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+header,main,footer,#wait{position:relative;z-index:2}
+header{text-align:center;padding:22px 16px 4px;max-width:980px;margin:0 auto}
+.hero{width:min(210px,56vw);height:auto;display:block;margin:0 auto}
+.hero-img{width:min(260px,70vw);display:block;margin:0 auto;border-radius:22px;box-shadow:var(--soft)}
+h1{font-family:'Caveat',cursive;font-weight:700;font-size:clamp(2.4rem,9vw,3.8rem);margin:2px 0 0;color:var(--rose-d);line-height:1}
+.sub{margin:4px auto 0;max-width:520px;color:var(--ink);opacity:.85}
+.bubble{display:inline-block;background:#fff;border-radius:20px;padding:8px 16px;margin-top:12px;box-shadow:var(--soft);max-width:560px;font-size:.95rem}
+.status{margin:12px auto 0;font-weight:600;color:var(--rose-d)}
+.badge{display:inline-block;margin-top:8px;background:linear-gradient(135deg,#ffe3b8,#f6c6d4);border-radius:999px;padding:5px 16px;font-weight:700;box-shadow:var(--soft)}
+/* sala de espera */
+#wait{max-width:760px;margin:14px auto 0;padding:0 14px}
+.wcard{background:rgba(255,255,255,.85);border-radius:26px;box-shadow:var(--soft);padding:16px;text-align:center;backdrop-filter:blur(4px)}
+.wcard h3{font-family:'Caveat',cursive;font-size:1.9rem;margin:0 0 6px;color:var(--rose-d)}
+.cd{display:flex;justify-content:center;gap:10px}
+.cd div{background:linear-gradient(160deg,#ffe3ec,#fff);border-radius:16px;min-width:64px;padding:8px 6px;box-shadow:inset 0 0 0 1.5px var(--pink)}
+.cd b{display:block;font-size:1.7rem;color:var(--rose-d);line-height:1.1}.cd span{font-size:.75rem;opacity:.8}
+.chip{display:inline-block;margin:12px 4px 0;background:#fff;border-radius:999px;padding:6px 14px;font-weight:600;box-shadow:0 3px 10px rgba(184,74,110,.12)}
+.acts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.act{border:0;border-radius:20px;padding:12px 6px;cursor:pointer;font-family:inherit;font-weight:700;color:var(--ink);box-shadow:var(--soft);transition:transform .15s}
+.act:active{transform:scale(.96)}.act i{display:block;font-style:normal;font-size:1.8rem;margin-bottom:2px}.act small{font-weight:500;opacity:.75}
+.act.a0{background:linear-gradient(160deg,#ffd3e0,#ffeaf1)}.act.a1{background:linear-gradient(160deg,#e4d3f5,#f6eefc)}.act.a2{background:linear-gradient(160deg,#ffe6cf,#fff4e8)}
+main{max-width:760px;margin:0 auto;padding:18px 14px 30px}
+.case{background:linear-gradient(160deg,#fff,#ffeef3);border-radius:30px;padding:18px;box-shadow:0 14px 34px rgba(184,74,110,.2),inset 0 0 0 3px #fff,inset 0 0 0 5px var(--gold)}
+#grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(min-width:720px){#grid{grid-template-columns:repeat(6,1fr);gap:16px}}
+.door{position:relative;aspect-ratio:1;border:0;border-radius:50%;cursor:pointer;padding:0;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Caveat',cursive;font-weight:700;transition:transform .25s ease,filter .2s;
+  box-shadow:inset 0 3px 6px rgba(255,255,255,.75),inset 0 -5px 9px rgba(0,0,0,.1),0 6px 14px rgba(184,74,110,.22)}
+.door.c0{background:radial-gradient(circle at 30% 25%,#ffd9e4,#f08fb0)}.door.c1{background:radial-gradient(circle at 30% 25%,#f3e3fb,#bf9be3)}
+.door.c2{background:radial-gradient(circle at 30% 25%,#ffe8d8,#f4a98a)}.door.c3{background:radial-gradient(circle at 30% 25%,#e6f6ec,#8fcaa6)}
+.door.c4{background:radial-gradient(circle at 30% 25%,#fbe5d6,#d49a85)}.door.c5{background:radial-gradient(circle at 30% 25%,#e6f3fc,#9cc7e8)}
+.door .num{font-size:clamp(1.8rem,7vw,2.7rem);line-height:.95;text-shadow:0 2px 4px rgba(0,0,0,.18)}
+.door .ico{font-size:clamp(.9rem,3.4vw,1.3rem);line-height:1;font-family:'Quicksand',sans-serif}
+.door:active{transform:scale(.94)}
+.door.locked{filter:saturate(.5) brightness(.97)}
+.door.available{animation:glow 2s ease-in-out infinite}
+.door.opened{background:radial-gradient(circle at 30% 25%,#fff,#ffe9ef)!important;color:var(--rose-d)}
+.door.opened .num{text-shadow:none}
+@keyframes glow{0%,100%{box-shadow:inset 0 3px 6px rgba(255,255,255,.75),inset 0 -5px 9px rgba(0,0,0,.1),0 6px 14px rgba(184,74,110,.22),0 0 0 0 rgba(244,169,190,.8)}50%{box-shadow:inset 0 3px 6px rgba(255,255,255,.75),inset 0 -5px 9px rgba(0,0,0,.1),0 6px 14px rgba(184,74,110,.22),0 0 0 10px rgba(244,169,190,0)}}
+.door.shake{animation:shake .5s}
+@keyframes shake{0%,100%{transform:translateX(0)}15%{transform:translateX(-9px) rotate(-5deg)}30%{transform:translateX(9px) rotate(5deg)}45%{transform:translateX(-7px)}60%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
+.door.dodging{z-index:30;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.door.shield::before{content:"🛡️";position:absolute;top:-8px;right:-6px;font-size:1.1rem}
+footer{text-align:center;padding:10px 16px 90px;max-width:760px;margin:0 auto;font-size:.95rem;opacity:.9}
+.pbtn{font-family:inherit;background:#fff;border:1.5px dashed var(--pink2);border-radius:12px;padding:6px 12px;cursor:pointer;color:var(--ink);opacity:.7;margin:6px 4px}
+.pbtn:hover{opacity:1}
+/* modal */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(120,60,80,.4);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:14px}
+.card{position:relative;background:var(--cream);border-radius:28px;box-shadow:0 20px 50px rgba(120,40,70,.3),inset 0 0 0 2px var(--pink);width:min(560px,100%);max-height:92vh;overflow:auto;padding:20px 20px 24px;animation:pop .35s cubic-bezier(.3,1.5,.5,1)}
+@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:none;opacity:1}}
+.x{position:absolute;top:10px;right:12px;border:0;background:#fff;border-radius:50%;width:36px;height:36px;font-size:1rem;cursor:pointer;box-shadow:0 3px 8px rgba(184,74,110,.2);color:var(--rose-d)}
+.tag{display:inline-block;background:var(--pink);color:var(--rose-d);font-weight:700;border-radius:999px;padding:3px 12px;font-size:.85rem}
+.tag.funny{background:#d9eee1;color:#3f7a58}.tag.coupon{background:#ffe5c8;color:#a86a2a}
+.card h2{font-family:'Caveat',cursive;font-size:2.1rem;margin:8px 40px 6px 0;color:var(--rose-d);line-height:1.05}
+.media{margin:8px 0 12px;text-align:center}
+.media svg{width:100%;max-width:300px;height:auto}
+.photo{max-width:100%;max-height:340px;border-radius:18px;box-shadow:var(--soft)}
+audio{width:100%;margin-top:8px}
+.msg p{margin:0 0 10px;font-family:'Caveat',cursive;font-size:1.5rem;line-height:1.22}
+.lnk{display:inline-block;margin:2px 0 8px;color:var(--rose-d);font-weight:700}
+.claim{font-family:inherit;font-weight:700;font-size:1.05rem;background:linear-gradient(135deg,#f6a6bf,#f28aa9);color:#fff;border:0;border-radius:999px;padding:11px 22px;cursor:pointer;box-shadow:0 6px 16px rgba(229,127,160,.5);margin-top:6px}
+.claim:active{transform:scale(.96)}
+.stamp{display:inline-block;margin-top:6px;border:3px double var(--rose);color:var(--rose);font-weight:700;padding:6px 14px;border-radius:12px;transform:rotate(-4deg);letter-spacing:1px}
+.pnote{margin-top:12px;background:#fff7c9;border-radius:12px;padding:8px 10px;font-size:.9rem}
+/* tocador */
+.rows{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.row b{min-width:78px;font-size:.9rem}
+.sw{width:30px;height:30px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.2);cursor:pointer;padding:0}
+.sw.on{outline:3px solid var(--rose);outline-offset:2px}
+.look{font-size:.85rem;opacity:.8;margin:4px 0}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.pill{font-family:inherit;font-weight:700;border:0;border-radius:999px;padding:9px 16px;cursor:pointer;background:#fff;color:var(--rose-d);box-shadow:0 3px 10px rgba(184,74,110,.18)}
+.pill.main{background:linear-gradient(135deg,#f6a6bf,#f28aa9);color:#fff}
+/* juego */
+.gbar{display:flex;justify-content:space-between;font-weight:700;margin:6px 0}
+#garena{position:relative;height:300px;border-radius:20px;overflow:hidden;background:linear-gradient(180deg,#ffe9f1,#fff7ee);box-shadow:inset 0 0 0 2px var(--pink);touch-action:manipulation}
+.gi{position:absolute;top:-50px;border:0;background:transparent;font-size:2rem;cursor:pointer;padding:0;animation:fallg linear forwards;transition:opacity .3s,scale .3s;user-select:none}
+@keyframes fallg{to{transform:translateY(var(--h))}}
+.gres{text-align:center;font-family:'Caveat',cursive;font-size:1.6rem;min-height:36px;margin-top:6px}
+/* cartitas */
+.note{background:#fff;border-radius:16px;padding:10px 14px;margin:8px 0;box-shadow:0 3px 10px rgba(184,74,110,.1)}
+.note summary{cursor:pointer;font-weight:700;color:var(--rose-d)}
+.note p{margin:6px 0 2px;font-family:'Caveat',cursive;font-size:1.4rem;line-height:1.2}
+.note.lock{opacity:.6}
+/* overlays */
+.overlay{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(60,25,40,.78)}
+.term{width:min(520px,100%);background:#1d1220;color:#ffb6d0;border:2px solid #f08fb0;border-radius:16px;padding:12px 14px;font-family:'Courier New',monospace;font-size:.95rem}
+.term-bar{opacity:.7;margin-bottom:8px}.term pre{margin:0 0 10px;white-space:pre-wrap;min-height:110px}
+.prog{height:16px;border:2px solid #f08fb0;border-radius:8px;overflow:hidden}.prog i{display:block;height:100%;width:0;background:#f08fb0}
+.term.glitch{animation:glitch .4s steps(2) 2}
+@keyframes glitch{0%{transform:translate(0)}25%{transform:translate(-6px,3px);filter:hue-rotate(90deg)}50%{transform:translate(6px,-3px)}75%{transform:translate(-3px,-3px);filter:invert(1)}100%{transform:translate(0)}}
+.alarm{width:min(480px,100%);text-align:center;background:#fff;border:4px solid var(--rose);border-radius:24px;padding:20px;animation:flash .6s infinite alternate}
+@keyframes flash{from{background:#fff}to{background:#ffd9e3}}
+.siren{font-size:3rem;animation:shake .6s infinite}
+.alarm h2{font-family:'Caveat',cursive;font-size:2.2rem;color:var(--rose-d);margin:6px 0}.alarm p{font-size:1.1rem}
+.obtn{font-family:inherit;font-weight:700;font-size:1rem;background:linear-gradient(135deg,#f6a6bf,#f28aa9);color:#fff;border:0;border-radius:999px;padding:11px 20px;cursor:pointer;box-shadow:0 6px 16px rgba(229,127,160,.5)}
+.obtn:disabled{opacity:.5;cursor:not-allowed}
+.logro{width:min(480px,100%);text-align:center;background:var(--cream);border-radius:28px;box-shadow:0 20px 50px rgba(0,0,0,.35);padding:20px}
+.trophy{font-size:3.2rem}.logro h2{margin:0;font-family:'Caveat',cursive;font-size:2rem;color:#3f7a58}
+.logro h3{margin:2px 0 10px;font-family:'Caveat',cursive;color:var(--rose-d);font-size:2.2rem;line-height:1}
+.multa{background:#fff;border:2px dashed var(--rose);border-radius:16px;padding:8px 12px;margin:10px 0;text-align:left}.multa p{margin:4px 0}
+.patmsg{min-height:24px;margin-top:8px;font-weight:600;color:var(--rose-d)}
+#toast{position:fixed;left:50%;bottom:78px;transform:translateX(-50%) translateY(30px);z-index:90;max-width:min(520px,92vw);background:#fff;border-radius:18px;box-shadow:var(--soft);padding:10px 16px;opacity:0;pointer-events:none;transition:.3s;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:95;overflow:hidden}
+.bit{position:absolute;font-size:1.5rem;animation:fly 1.6s ease-out forwards}
+@keyframes fly{to{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+#player{position:fixed;left:10px;bottom:10px;z-index:60;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.92);border-radius:999px;padding:5px 12px 5px 6px;box-shadow:var(--soft)}
+#pbtn{width:34px;height:34px;border-radius:50%;border:0;background:linear-gradient(135deg,#f6a6bf,#f28aa9);color:#fff;cursor:pointer;font-size:1rem}
+#vol{width:78px;accent-color:var(--rose)}#plabel{font-size:.85rem}
+@media(max-width:420px){#plabel{display:none}.acts{gap:6px}.act{font-size:.85rem}}
+</style>
+</head>
+<body>
+<canvas id="snow"></canvas>
+
+<header>
+  <div id="heroSlot"></div>
+  <h1>Calendario de Adviento</h1>
+  <p class="sub">24 sorpresitas · una por día · hechas con muchísimo cariño 💗</p>
+  <div class="bubble">Aquí manda Piojo… <b>temporalmente</b>. 😌 (En todo lo demás ya sabemos quién manda.)</div>
+  <p class="status" id="status"></p>
+  <div id="logroBadge" hidden><span class="badge">🏆 La Más Desesperada del Universo</span></div>
+</header>
+
+<section id="wait" hidden>
+  <div class="wcard">
+    <h3>✨ Sala de espera ✨</h3>
+    <div class="cd" id="cd"></div>
+    <div class="acts">
+      <button class="act a0" id="actTocador"><i>💄</i>Mi tocador<br><small>de Navidad</small></button>
+      <button class="act a1" id="actGame"><i>🎁</i>Atrapa<br><small>regalitos</small></button>
+      <button class="act a2" id="actNotes"><i>💌</i>Cartitas<br><small id="notesCount"></small></button>
+    </div>
+  </div>
+</section>
+
+<main><div class="case"><div id="grid"></div></div></main>
+
+<footer>
+  <div>Hecho con 💗 por Piojo, para la mejor jefa del universo.</div>
+  <div><button class="pbtn" id="previewBtn">🛠️ Modo Vista Previa (Piojo): OFF</button><button class="pbtn" id="resetBtn" hidden>↺ Reiniciar progreso</button></div>
+</footer>
+
+<div id="modal" class="modal" hidden><div class="card" role="dialog" aria-modal="true"><button class="x" id="mclose" aria-label="Cerrar">✕</button><div id="mbody"></div></div></div>
+<div id="overlay" class="overlay" hidden></div>
+<div id="toast"></div>
+<div id="fx"></div>
+<div id="player"><button id="pbtn" aria-label="Música">▶</button><input id="vol" type="range" min="0" max="100" value="25" aria-label="Volumen"><span id="plabel">🎵 navidad soft</span></div>
+<audio id="bgm" loop preload="none"></audio>
+
+<script>
+/* =====================================================================
+   CONFIGURACIÓN (edítala tú)
+   ===================================================================== */
+const NTFY_TOPIC = "piojo-calendario-1224";          // topic de ntfy.sh (suscríbete a este mismo nombre en la app)
+const AUDIO_NAVIDAD_URL = "media/navidad-soft.mp3";  // tu mp3 (instrumental/lofi/piano recomendado); si no existe suena la cajita de música
+const HEADER_IMAGE_URL = "";                         // opcional: imagen tuya para el encabezado
+const YEAR = 2026;
+
+/* =====================================================================
+   CARTITAS DE ESPERA (24 al 30 de noviembre).
+   ===================================================================== */
+const WAIT_NOTES = [
+ { d:24, title:"Bienvenida, bonita", text:`Sé que te hubiera gustado un calendario de adviento de maquillaje y no pude dártelo. Así que hice este, a mi manera y con todo el cariño del mundo 💗\n\nTodavía faltan unos días para el 1, pero mientras tanto: pasa por el tocador, atrapa regalitos y vuelve cada día por una cartita.` },
+ { d:25, title:"Nuestras desveladas", text:`Me encantan nuestras llamadas hasta las tantas, el ruido de tu teclado, tu risa de fondo y esos "¿sigues ahí?". Gracias por quedarte despierta conmigo, nooboo 🌙` },
+ { d:26, title:"Misión de hoy", text:`Ve al tocador, píntate a tu gusto y guarda tu look. Quiero saber qué labios y qué sombras elegirías para Navidad 💄` },
+ { d:27, title:"Dato curioso", text:`Tu risa (sí, esa de "JDLAKAJA") es de mis sonidos favoritos. Guárdame una para cuando abras el día 1.` },
+ { d:28, title:"Pequeña confesión", text:`Me emociona más verte abrir esto que cualquier regalo que haya dado. Tú sigue picándole a lo que está bloqueado, que yo me divierto 😌` },
+ { d:29, title:"Faltan dos días", text:`Spoiler: hay vales, hay cartas, hay risas, hay recuerdos nuestros y hasta una canción con guitarra. No digo más.` },
+ { d:30, title:"Mañana empieza todo", text:`Ve a dormir temprano (sé que no lo harás) y abre el día 1 apenas amanezca. Te amo, nooboo 💗` }
+];
+
+/* =====================================================================
+   CALENDAR_DAYS: edita aquí todo el contenido.
+   type: "romantic" | "funny" | "coupon"
+   chatReference: SOLO lo ves tú (en Modo Vista Previa): fecha/hora del .txt para buscar fotos/audios.
+   imageUrl / audioUrl: opcionales (rutas locales tipo "media/dia3.jpg"). Vacíos = ilustración automática.
+   link: opcional {url, text}. En los "coupon", el title es el nombre del vale.
+   ===================================================================== */
+const CALENDAR_DAYS = [
+ { day:1, type:"romantic", title:"Primera ventanita",
+   chatReference:"Sin foto obligatoria. Idea opcional: tu foto con la vela, 31/10/2026 11:22 p. m. (Multimedia omitido).",
+   message:`Hola, amor 🎄
+
+Hoy empieza diciembre y yo empiezo mi misión: darte una sorpresa cada día hasta Nochebuena. No porque lo necesites, sino porque a mí me encanta verte feliz aunque sea a través de una pantalla.
+
+Si querías un calendario de maquillaje y no pude dártelo, este lo hice yo, con lo que tengo: cartas, risas, vales y recuerdos nuestros. Prepárate, nooboo: hay cosas que todavía no sabes (sí, ya sé que eso te desespera 😌).`, imageUrl:"", audioUrl:"" },
+
+ { day:2, type:"funny", title:"Expediente oficial: la paciencia de Piojo",
+   chatReference:"Texto: 16/9/2026 5:36 p. m. a 5:39 p. m. (los cinco 'Decime' y el 'no sirvo para sorpresas'). Sin multimedia necesaria.",
+   message:`📋 EXPEDIENTE #001
+Sujeto: nooboo, jefa absoluta de la relación.
+
+Evidencia: 16 de septiembre, 5:36 p. m. Cinco "Decime" seguidos en menos de un minuto, amenaza de dejarme de hablar y cero piedad con la sorpresa de las flores.
+
+Resultado: Piojo sobrevivió, las flores llegaron y tú "no sirves para las sorpresas" (tus palabras).
+
+Conclusión oficial: probar mi paciencia es tu deporte favorito, y yo siempre vuelvo a inscribirme.`, imageUrl:"", audioUrl:"" },
+
+ { day:3, type:"romantic", title:"Flores amarillas",
+   chatReference:"Fotos del ramo: 16/9/2026 7:08 p. m., 7:12 p. m. y 7:13 p. m. (Multimedia omitido). Página de girasoles: 21/9/2026 10:28 p. m.",
+   message:`Ese 16 de septiembre no iba a dejar que no recibieras flores amarillas. Estaba feliz de haberlo logrado… aunque tú ya te habías dado cuenta de todo, porque a ti es imposible esconderte una sorpresa.
+
+Todavía me hace reír que lo primero que preguntaste fue cómo te las ibas a llevar en el bus. Así eres: piensas hasta en cómo cuidar un ramo antes de tenerlo en las manos.
+
+Y el 21 de septiembre te hice una página donde las flores explotan al tocarlas. Sigo con ganas de hacerte cosas así.`,
+   link:{ url:"https://rdanielparra.github.io/21Septiembre/", text:"🌻 Volver a ver la página del 21 de septiembre" }, imageUrl:"", audioUrl:"" },
+
+ { day:4, type:"coupon", title:"Vale: tú eliges el mapa en Valorant",
+   chatReference:"Referencia: 11/8/2026 1:13 a. m. ('Odio este mapa, no sé cómo pickear acá'). Sin multimedia.",
+   message:`🎮 Este vale te da el poder absoluto de elegir el mapa en Valorant. Y no solo eso: también el agente que Piojo tendrá que jugar.
+
+Piojo no podrá decir "odio este mapa" (aunque lo piense y le duela el alma).
+
+Válido una vez, sin quejas y sin el clásico "es que aquí no sé cómo pickear".`, imageUrl:"", audioUrl:"" },
+
+ { day:5, type:"romantic", title:"Alerta Amber (me asusté)",
+   chatReference:"Texto: 24/10/2026 1:17 p. m. a 5:17 p. m. ('Estás viva amor?', 'Alerta Amber', 'estás comiendo tu gelatina?'). Fotos: 24/10/2026 4:46 p. m. y 4:56 p. m. (Multimedia omitido).",
+   message:`Ese 24 de octubre desaparecías, y yo mandando mensajes: "¿Estás viva?", "¿Tas bien?", hasta que amenacé con sonar la alerta Amber (sí, exagerado).
+
+Luego supe que tenías fiebre y que ni ganas de comer tenías. Lo único que quise fue cuidarte desde lejos, con una gelatina por mensaje y un "descansa lo más que puedas".
+
+Siempre estaré a un mensaje, bonita. Y si algún día no contestas, la alerta Amber vuelve a sonar.`, imageUrl:"", audioUrl:"" },
+
+ { day:6, type:"funny", title:"Valorant, edición 'me confunden'",
+   chatReference:"Capturas: 11/8/2026 1:05 a. m., 1:07 a. m. y 1:08 a. m. (Multimedia omitido). También 'la ganamos': 11/8/2026 10:59 p. m.",
+   message:`🎯 Noche del 11 de agosto, 1:05 a. m.
+
+Tú: "Yo llevo 2 kills."
+Yo: "El Chamber lleva 4 y es oro 3."
+Tú: "Me hicieron mrd… no pusieron murito, pipipi."
+
+Yo, con mi ego eterno y mi odio al doble centinela, perdiendo contigo en equipo y feliz.
+
+Esa misma noche, horas después, ganaron la compe. Mi respuesta oficial: "That's my girl."`, imageUrl:"", audioUrl:"" },
+
+ { day:7, type:"romantic", title:"Soy difícil",
+   chatReference:"Texto: 27/10/2026 1:01 a. m. a 1:03 a. m. ('soy difícil, déjame' / '¿por qué me gustaría lo fácil?').",
+   message:`Una madrugada me dijiste: "soy difícil, déjame". Y yo te contesté: "¿por qué me gustaría lo fácil?".
+
+Sigue siendo verdad. Me gusta tu carácter, que me pongas a prueba, que me digas que no cuando toca y me regales una sonrisa cuando menos lo espero.
+
+Lo difícil contigo vale cada intento, amor.`, imageUrl:"", audioUrl:"" },
+
+ { day:8, type:"coupon", title:"Vale: noche de pelis y snacks con temática de Snoopy",
+   chatReference:"Referencia opcional: planes de anime (16/11/2026 7:07 p. m. 'veamos Nana el finde'). Sin multimedia.",
+   message:`🍿 Vale por una noche de pelis y snacks con temática de Snoopy.
+
+Tú eliges la película, los snacks tienen que ser dignos de una navidad cozy y yo llevo la paciencia (la traigo cargada).
+
+Si en medio se cuela un capítulo de anime en Crunchy, el vale se estira sin costo extra.`, imageUrl:"", audioUrl:"" },
+
+ { day:9, type:"funny", title:"Misión secreta: buscar el token",
+   chatReference:"Texto: 16/11/2026 2:35 p. m. a 2:36 p. m. ('¿te enojas si me toca el token?' / 'Te mato' / 'Te bloqueo desde ahorita').",
+   message:`🔎 FORTNITE · 16 de noviembre, 2:35 p. m.
+
+Yo, inocente: "¿Te enojas si me toca el token?"
+Tú: "Te mato."
+Tú, otra vez: "Te bloqueo desde ahorita."
+Yo: "¿Qué hago tons? :c"
+
+Misión del día: buscar el token.
+Dificultad: no pelearme con la jefa.
+Recompensa: seguir vivo y con acceso a tu chat.
+
+Spoiler: si lo encuentro, juro que era para ti.`, imageUrl:"", audioUrl:"" },
+
+ { day:10, type:"romantic", title:"Nuestras desveladas",
+   chatReference:"Texto: 11/8/2026 11:42 p. m. a 11:47 p. m. ('no me gustan las sleepy calls, tbh'), 18/10/2026 2:13 a. m., 27/10/2026 3:56 a. m. ('a mis 6 am').",
+   message:`El 11 de agosto me dijiste que no te gustaban las sleepy calls, tbh. Mírate ahora: "ya me iré a mimir, se me cierran los ojitos" a las 3 de la mañana y yo diciendo "solo cinco minutitos más".
+
+Me encantan nuestras llamadas hasta las tantas, el ruido de tu teclado, tu risa de fondo y esos "¿sigues ahí?".
+
+Y lo que más me gusta es que, aunque se nos cierren los ojitos, ninguno quiere colgar primero.`, imageUrl:"", audioUrl:"" },
+
+ { day:11, type:"romantic", title:"Yo sé",
+   chatReference:"Texto: 8/10/2026 11:02 p. m. ('Yo sé, descansa'), 9/10/2026 10:05 p. m. ('Yo sé'), 21/11/2026 12:16 a. m. ('Yo también animal').",
+   message:`Hay algo que hago todos los días: decirte "te amo". Y hay algo que haces tú: contestar "yo sé", como toda una jefa. 😌
+
+Me encanta. Porque detrás de ese "yo sé" hay una niña que sabe que la quiero, y que me quiere de vuelta aunque a veces lo disfrace de "más te vale".
+
+Así que hoy toca otra vez: te amo, amor. Y no hace falta que contestes. Ya sé tu respuesta.`, imageUrl:"", audioUrl:"" },
+
+ { day:12, type:"coupon", title:"Vale: ganar una discusión automáticamente",
+   chatReference:"Sin multimedia. Chiste interno: ella manda en las peleas.",
+   message:`⚖️ Vale para ganar una discusión automáticamente (aunque ya mandes siempre).
+
+Instrucciones: al empezar, di "canjeo el vale". Piojo pondrá cara de derrota digna, dirá "tienes razón" y fingirá que no lo tenía planeado.
+
+Válido una vez. No aplica si Piojo realmente tiene razón (broma, sí aplica).`, imageUrl:"", audioUrl:"" },
+
+ { day:13, type:"romantic", title:"Tu risa",
+   chatReference:"Audios/videos con risa: 19/11/2026 12:29 a. m. (Video note omitted), 10/11/2026 7:46 a. m. (Video note omitted), 16/11/2026 8:29 a. m. (Video note omitted).",
+   message:`Me encanta cómo te ríes. Aunque sea escrita, un "JDLAKAJA" tuyo ya me contagia la sonrisa; por llamada es peor: no puedo estar serio ni aunque quiera.
+
+Tu risa es de las que se pegan: empiezas tú y terminamos los dos sin saber de qué. Si pudiera guardar un sonido para siempre, sería ese.
+
+Gracias por reírte conmigo, babe (y de mí, que también cuenta).`, imageUrl:"", audioUrl:"" },
+
+ { day:14, type:"funny", title:"Piojo, tu bloc de notas oficial",
+   chatReference:"Texto: 29/9/2026 7:36 a. m. a 10:06 a. m. ('2 objetivos smart', 'bloc de notas', 'Canadá'). Capturas: 29/9/2026 9:55 a. m. (Multimedia omitido).",
+   message:`📝 29 de septiembre, 7:36 a. m.: te mando "2 objetivos smart" sin contexto.
+Tú: "¿Y tengo cara de ser bloc de notas o qué?"
+Mi defensa: "Eras el chat más cercano que tenía."
+
+Ese mismo día:
+Yo: "Sácame de la uni."
+Tú: "A mí del trabajo."
+Yo: "Vámonos a Canadá, a jugar hockey y a ver las cataratas."
+
+La oferta sigue en pie. Tú pones el abrigo, yo pongo el hockey (malísimo).`, imageUrl:"", audioUrl:"" },
+
+ { day:15, type:"coupon", title:"Vale: un deseo sin quejas de Piojo",
+   chatReference:"Sin multimedia. Chiste interno: su 'dame chance'.",
+   message:`🧞 Vale por un deseo sin quejas de Piojo.
+
+Pide lo que quieras (razonable… o no tanto). Piojo lo cumplirá sin "¿es en serio?", sin "dame chance" y sin hacerse el dormido.
+
+Limitaciones: ninguna que no puedas convencerme de ignorar.`, imageUrl:"", audioUrl:"" },
+
+ { day:16, type:"romantic", title:"Mi plantita",
+   chatReference:"Texto: 10/11/2026 9:19 a. m. a 9:20 a. m. ('Ven y duerme en mi pecho', 'Soy una plantita, requiero atención'). Foto: 9:19 a. m. y 9:20 a. m. (Multimedia omitido).",
+   message:`Una mañana me escribiste: "soy una plantita, requiero atención".
+
+Aquí hay atención de sobra, nooboo. Este día es solo para regarte de cariño: un abrazo largo, palabras bonitas y una promesa. Aunque me gane el sueño (casi siempre me gana), voy a levantarme a contestarte.
+
+Y sí: ven y duerme en mi pecho cuando quieras. Ahí tienes lugar reservado.`, imageUrl:"", audioUrl:"" },
+
+ { day:17, type:"funny", title:"Ingeniera del apagar y encender",
+   chatReference:"Capturas: 19/10/2026 11:38 a. m. y 11:45 a. m. (Multimedia omitido). Texto: 19/10/2026 6:02 p. m. y 23/11/2026 11:19 a. m. a 1:31 p. m.",
+   message:`💻 Día de auditoría: el escáner congelado y la laptop trabada. Tú: "Ya pude. Soy pro."
+
+Mi diagnóstico de ingeniero experto: apágalo y préndelo, o dale un leve golpe. Dos soluciones oficiales y cero títulos.
+
+Después la plataforma de tu trabajo se cayó y estuve "con ingenieros hablándolo". La solución final fue el caché.
+
+Veredicto: eres una crack, una fiera, un mastodonte. Y si el ing te falla, Piojo se ofrece como soporte técnico remoto. Tarifa: abrazos.`, imageUrl:"", audioUrl:"" },
+
+ { day:18, type:"coupon", title:"Vale: flores a pedido",
+   chatReference:"Texto: 21/11/2026 12:45 a. m. ('Si me das flores te mando un beso') y 18/10/2026 4:26 p. m. a 4:31 p. m. (naturales o limpiapipas).",
+   message:`💐 Un día dijiste: "si me das flores te mando un beso". Piojo tomó nota.
+
+Este vale te da un ramo a pedido: lirios, girasoles o lo que se te antoje. Naturales, de limpiapipas o de crochet, como tú prefieras.
+
+Lo del beso queda a tu criterio, jefa.`, imageUrl:"", audioUrl:"" },
+
+ { day:19, type:"romantic", title:"Sin palabras",
+   chatReference:"Fotos: 3/11/2026 4:51 p. m. y 5:00 p. m. (Multimedia omitido). Texto largo: 3/11/2026 6:13 p. m. Poema: 16/10/2026 9:36 a. m. (fotos 9:25 a. m. y 9:26 a. m.).",
+   message:`El 3 de noviembre te escribí "estoy sin palabras". Y luego, aun así, me salieron un montón.
+
+Tus ojos grandes y brillantes, tu carita, tu cabello tan bonito, esa forma en que te ves aunque no te lo creas. Verte se siente más bonito que el sol de invierno.
+
+Hoy lo repito sin pena: eres lo más hermoso que me ha pasado, amor. Y todavía me quedo sin palabras.`, imageUrl:"", audioUrl:"" },
+
+ { day:20, type:"coupon", title:"Vale: un detalle de Keroppi (o Sanrio)",
+   chatReference:"Texto: 14/8/2026 4:24 p. m. a 6:33 p. m. (la tienda que nos dejó en visto; 'Sanrio y cosas bonitas y rosadas'). 4/11/2026 3:23 p. m. (Keroppi, Multimedia omitido) y 5:01 p. m.",
+   message:`🐸 El 14 de agosto te pregunté tus gustos y me dijiste: "personajes de Sanrio y cosas bonitas y rosadas". Lo anoté con letras doradas.
+
+Aquella vez la tienda me dejó en visto (pésimo servicio, cero estrellas). Este vale repara el daño: un detalle de Keroppi, o del personaje de Sanrio que tú elijas.
+
+Válido cuando Piojo cobre y la vida de adulto lo permita, pero con muchísimo amor.`, imageUrl:"", audioUrl:"" },
+
+ { day:21, type:"coupon", title:"Vale: una canción con guitarra a tu elección",
+   chatReference:"No viene del chat. Graba una nota de voz o un video corto tocando y ponlo en audioUrl (por ejemplo media/guitarra.mp3).",
+   message:`🎸 Vale por una canción tocada con mi guitarra, la que tú pidas.
+
+Ya te he cantado "Vámonos a Marte" y "Te quiero tanto" de Kevin Kaarl. Este vale es para que elijas la siguiente.
+
+Prometo afinar antes (mucho, aunque no garantizo nada).`, imageUrl:"", audioUrl:"" },
+
+ { day:22, type:"romantic", title:"Flores efímeras",
+   chatReference:"Texto: 18/10/2026 4:26 p. m. a 4:36 p. m. Fotos: 18/10/2026 4:35 p. m. y 4:36 p. m.; lirios 19/10/2026 6:04 p. m. (Multimedia omitido).",
+   message:`Una tarde discutimos (con cariño) si eran mejores las flores eternas o las naturales. Yo defendí que las naturales son bonitas porque así nacieron, y que son efímeras, lo que nos hace apreciar su belleza.
+
+Me dijiste que en otra vida fuiste abeja o colibrí. Yo te contesté que fuiste la más hermosa de todas, y lo sostengo.
+
+Contigo lo siento al revés: bonito como lo natural, pero con raíces de las que no se secan.`, imageUrl:"", audioUrl:"" },
+
+ { day:23, type:"romantic", title:"Vámonos a Marte",
+   chatReference:"Texto: 21/11/2026 12:24 a. m. a 1:41 a. m. ('Daría lo que fuera por poder estar ahí a tu lado'). Graba una nota de voz o video tocando 'Vámonos a Marte' o 'Te quiero tanto' y pónlo en audioUrl.",
+   message:`A veces agarro mi guitarra y toco "Vámonos a Marte" y "Te quiero tanto", las mismas que te he cantado. No soy músico: solo alguien que quiere que sepas lo que siente cuando no encuentra otras palabras.
+
+Una madrugada te escribí: "daría lo que fuera por poder estar ahí a tu lado". Lo sigo diciendo en serio. Aunque sea para ver una peli en silencio, o para que me mandes a callar con un "cálmate".
+
+Mientras llega ese día, nuestras pantallas hacen el trabajo. Y mi lugar favorito sigue teniendo tu nombre.`, imageUrl:"", audioUrl:"" },
+
+ { day:24, type:"romantic", title:"Nochebuena",
+   chatReference:"Texto: 9/11/2026 12:17 a. m. ('TEY AAAMOOPR' transmitiendo), 7/11/2026 1:59 a. m. ('Adore You'), 27/10/2026 6:01 p. m., 21/11/2026 2:00 a. m., 23/11/2026 8:22 p. m. Foto final sugerida: la que más te guste de ustedes dos.",
+   message:`Feliz Nochebuena, amor 🎄
+
+Quise regalarte un calendario de adviento de maquillaje y no pude, así que hice uno con lo único que me sobra: tiempo pensando en ti.
+
+Me puse a contar en nuestro chat, desde el 3 de agosto. Te escribí "te amo" al menos 42 veces, "amor" más de 100 y te dije preciosa, hermosa o bonita casi 40. Y eso sin contar lo que se me queda en las llamadas.
+
+Te escribí que me pareces hermosa siempre, "no importa el estilo, forma o como te veas". Que eres la mujer que amo y que quiero darte todo lo que te mereces, aunque no terminaría de dártelo todo en esta vida. Que Adore You refleja muy bien mi forma de amarte. Y que siempre estaré a un mensaje.
+
+Tú me lo dijiste a tu manera: con tus "tqm", con tu "yo también, animal" y aquella vez que me gritaste "te amo" transmitiendo en Valorant, para que yo supiera.
+
+Te amo por tu risa, por ser difícil, por probar mi paciencia, por tus flores, por cómo te ríes de mí y conmigo, por las noches en que se nos olvida dormir. Tú mandas en todo, bonita. Menos en esto: que te amo. Ahí mando yo.
+
+Y sé que vas a contestar "yo sé". 💗
+
+Feliz Navidad, la joya más hermosa de toda Nicaragua.`, imageUrl:"", audioUrl:"" }
+];
+
+/* =====================================================================
+   A PARTIR DE AQUÍ NO HACE FALTA TOCAR NADA
+   ===================================================================== */
+(function(){
+'use strict';
+const $ = s => document.querySelector(s);
+const mem = {};
+const wrap = (api, pre) => ({
+  get(k,d){ try{ const v=api.getItem('adv2026_'+k); return v===null?d:JSON.parse(v);}catch(e){ return (pre+k in mem)?mem[pre+k]:d; } },
+  set(k,v){ try{ api.setItem('adv2026_'+k, JSON.stringify(v)); }catch(e){ mem[pre+k]=v; } }
+});
+let _ls, _ss; try{_ls=localStorage}catch(e){_ls={getItem(){throw 0},setItem(){throw 0}}} try{_ss=sessionStorage}catch(e){_ss={getItem(){throw 0},setItem(){throw 0}}}
+const store = wrap(_ls,'l_'), sess = wrap(_ss,'s_');
+let preview = !!store.get('preview', false);
+const esc = s => String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rnd = a => a[Math.floor(Math.random()*a.length)];
+
+/* ---------- texto ---------- */
+const fill = s => String(s);
+
+/* ---------- ntfy ---------- */
+function encHeader(s){ return /^[\x20-\x7E]*$/.test(s) ? s : '=?UTF-8?B?'+btoa(unescape(encodeURIComponent(s)))+'?='; }
+function notifyPiojo(titulo, mensaje, prioridad){
+  if(preview) return;
+  try{ fetch('https://ntfy.sh/'+NTFY_TOPIC, { method:'POST', headers:{ 'Title': encHeader(titulo), 'Priority': prioridad||'default' }, body: mensaje }).catch(()=>{}); }catch(e){}
+}
+
+/* ---------- fechas / bloqueo ---------- */
+function unlockedUpTo(){
+  if(preview) return 24;
+  const n=new Date(), y=n.getFullYear(), m=n.getMonth(), d=n.getDate();
+  if(y>YEAR) return 24; if(y<YEAR) return 0; if(m<11) return 0;
+  return Math.min(d,24);
+}
+const doorDate = day => new Date(YEAR,11,day,0,0,0);
+function fmtRemaining(ms){
+  const t=Math.max(1,Math.ceil(ms/60000)), d=Math.floor(t/1440), h=Math.floor((t%1440)/60), m=t%60;
+  if(d>0) return d+(d===1?' día':' días')+' y '+h+(h===1?' hora':' horas');
+  if(h>0) return h+(h===1?' hora':' horas')+' y '+m+' min';
+  return m+' min';
+}
+const todayKey = () => { const n=new Date(); return n.getFullYear()+'-'+(n.getMonth()+1)+'-'+n.getDate(); };
+function getAttempts(){
+  const l=store.get('att',{k:'',n:0}), s=sess.get('att',{k:'',n:0}), k=todayKey();
+  return Math.max(l.k===k?l.n:0, s.k===k?s.n:0);
+}
+function bumpAttempts(){ const o={k:todayKey(), n:getAttempts()+1}; store.set('att',o); sess.set('att',o); return o.n; }
+
+/* ---------- UI helpers ---------- */
+let toastT;
+function toast(t){ const el=$('#toast'); el.textContent=t; el.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('show'),3600); }
+function burst(x,y,n){
+  const fx=$('#fx'), em=['💗','✨','🌸','🎀','⭐','💖','🌼'];
+  for(let i=0;i<(n||26);i++){
+    const b=document.createElement('span'); b.className='bit'; b.textContent=rnd(em);
+    b.style.left=x+'px'; b.style.top=y+'px';
+    const a=Math.random()*Math.PI*2, r=90+Math.random()*190;
+    b.style.setProperty('--dx',Math.cos(a)*r+'px'); b.style.setProperty('--dy',(Math.sin(a)*r-60)+'px'); b.style.setProperty('--r',(Math.random()*540-270)+'deg');
+    fx.appendChild(b); setTimeout(()=>b.remove(),1700);
+  }
+}
+function openOverlay(html){ const o=$('#overlay'); o.innerHTML=html; o.hidden=false; return o; }
+function closeOverlay(){ const o=$('#overlay'); o.hidden=true; o.innerHTML=''; }
+let modalCleanup=null;
+function showModal(html,cleanup){
+  if(modalCleanup){ try{modalCleanup();}catch(e){} }
+  modalCleanup=cleanup||null; $('#mbody').onclick=null; $('#mbody').innerHTML=html;
+  $('#modal').hidden=false; $('#modal .card').scrollTop=0;
+}
+function closeModal(){ if(modalCleanup){ try{modalCleanup();}catch(e){} modalCleanup=null; } $('#modal').hidden=true; $('#mbody').innerHTML=''; $('#mbody').onclick=null; duck(false); }
+$('#mclose').onclick=closeModal;
+$('#modal').addEventListener('pointerdown',e=>{ if(e.target.id==='modal') closeModal(); });
+addEventListener('keydown',e=>{ if(e.key==='Escape' && !$('#modal').hidden) closeModal(); });
+
+/* ---------- nieve suave ---------- */
+(function(){
+  const c=$('#snow'), x=c.getContext('2d'); let w,h,fl=[];
+  function rs(){ w=c.width=innerWidth; h=c.height=innerHeight; fl=Array.from({length:Math.min(80,Math.floor(w/12))},()=>({x:Math.random()*w,y:Math.random()*h,r:1.2+Math.random()*2.8,s:.25+Math.random()*.6,d:Math.random()*6.28})); }
+  function f(){ x.clearRect(0,0,w,h); x.fillStyle='rgba(255,255,255,.95)'; x.strokeStyle='rgba(244,169,190,.55)'; x.lineWidth=1;
+    for(const p of fl){ p.y+=p.s; p.d+=.01; p.x+=Math.sin(p.d)*.35; if(p.y>h+5){p.y=-5;p.x=Math.random()*w}
+      x.beginPath(); x.arc(p.x,p.y,p.r,0,6.3); x.fill(); x.stroke(); }
+    requestAnimationFrame(f); }
+  rs(); addEventListener('resize',rs); f();
+})();
+
+/* ---------- ilustraciones originales ---------- */
+const STR='#c9708f';
+function flower(cx,cy,r,col,center){
+  let p=''; for(let i=0;i<8;i++) p+=`<ellipse cx="${cx}" cy="${cy-r}" rx="${r*.42}" ry="${r*.78}" fill="${col}" stroke="${STR}" stroke-width="1.5" transform="rotate(${i*45} ${cx} ${cy})"/>`;
+  return p+`<circle cx="${cx}" cy="${cy}" r="${r*.55}" fill="${center}" stroke="${STR}" stroke-width="1.5"/>`;
+}
+const SPARK='<g fill="#fff" stroke="#f4a9be" stroke-width="1"><circle cx="22" cy="24" r="4"/><circle cx="214" cy="30" r="3"/><circle cx="196" cy="118" r="3.5"/><circle cx="30" cy="110" r="3"/><circle cx="120" cy="12" r="3"/></g>';
+function art(type){
+  if(type==='romantic') return `<svg viewBox="0 0 240 170" role="img" aria-label="Ramo de flores"><rect x="4" y="4" width="232" height="162" rx="26" fill="#fff0f4"/>${SPARK}
+   <g stroke="#8fcaa6" stroke-width="5" fill="none" stroke-linecap="round"><path d="M120 150 L72 78"/><path d="M120 150 L120 66"/><path d="M120 150 L168 78"/></g>
+   ${flower(72,66,17,'#ffd86b','#b9774a')}${flower(120,50,19,'#ffe38a','#b9774a')}${flower(168,66,17,'#f9b6cb','#b9774a')}
+   <path d="M120 150 l-24 9 l24 -3 l24 3z" fill="#f08fb0" stroke="${STR}" stroke-width="1.5"/></svg>`;
+  if(type==='funny') return `<svg viewBox="0 0 240 170" role="img" aria-label="Control de videojuegos"><rect x="4" y="4" width="232" height="162" rx="26" fill="#f1f8f3"/>${SPARK}
+   <path d="M62 62 h116 c26 0 40 30 44 56 c3 20-16 26-28 12 l-14-18 h-120 l-14 18 c-12 14-31 8-28-12 c4-26 18-56 44-56z" fill="#f6a6bf" stroke="${STR}" stroke-width="2"/>
+   <rect x="72" y="78" width="30" height="10" rx="4" fill="#fff"/><rect x="82" y="68" width="10" height="30" rx="4" fill="#fff"/>
+   <circle cx="152" cy="74" r="8" fill="#ffe38a" stroke="${STR}" stroke-width="1.5"/><circle cx="172" cy="90" r="8" fill="#b9d8c4" stroke="${STR}" stroke-width="1.5"/>
+   <path d="M196 26 l4 10 l10 1 l-8 7 l3 10 l-9-6 l-9 6 l3-10 l-8-7 l10-1z" fill="#ffe38a" stroke="${STR}" stroke-width="1.5"/></svg>`;
+  return `<svg viewBox="0 0 240 170" role="img" aria-label="Vale"><rect x="4" y="4" width="232" height="162" rx="26" fill="#fff6e8"/>${SPARK}
+   <path d="M30 42 h180 a8 8 0 0 1 8 8 v22 a14 14 0 0 0 0 26 v22 a8 8 0 0 1 -8 8 h-180 a8 8 0 0 1 -8-8 v-22 a14 14 0 0 0 0-26 v-22 a8 8 0 0 1 8-8z" fill="#f9c9d6" stroke="${STR}" stroke-width="2"/>
+   <line x1="160" y1="48" x2="160" y2="124" stroke="${STR}" stroke-width="2" stroke-dasharray="6 6"/>
+   <text x="88" y="92" text-anchor="middle" font-family="Caveat,cursive" font-weight="700" font-size="40" fill="#b84a6e">VALE</text>
+   <path d="M190 100 c-14-14-26-2-18 8 l18 16 l18-16 c8-10-4-22-18-8z" transform="translate(0 -18) scale(.9) translate(18 8)" fill="#e57fa0"/></svg>`;
+}
+function heroSVG(){
+  return `<svg class="hero" viewBox="0 0 200 150" role="img" aria-label="Regalo navideño">
+   <ellipse cx="100" cy="140" rx="80" ry="8" fill="#fff" stroke="#f4a9be" stroke-width="1.5"/>
+   <rect x="52" y="64" width="96" height="72" rx="12" fill="#f9c9d6" stroke="#e57fa0" stroke-width="2"/>
+   <rect x="94" y="64" width="12" height="72" fill="#fff6e8"/><rect x="52" y="92" width="96" height="12" fill="#fff6e8"/>
+   <ellipse cx="82" cy="52" rx="20" ry="13" fill="#f4a9be" stroke="#e57fa0" stroke-width="2" transform="rotate(-20 82 52)"/>
+   <ellipse cx="118" cy="52" rx="20" ry="13" fill="#f4a9be" stroke="#e57fa0" stroke-width="2" transform="rotate(20 118 52)"/>
+   <circle cx="100" cy="58" r="8" fill="#fff6e8" stroke="#e57fa0" stroke-width="2"/>
+   <g fill="#ffe38a" stroke="#e8c39e" stroke-width="1"><path d="M30 40 l3 7 l7 1 l-5 5 l2 7 l-7-4 l-7 4 l2-7 l-5-5 l7-1z"/><path d="M168 24 l3 7 l7 1 l-5 5 l2 7 l-7-4 l-7 4 l2-7 l-5-5 l7-1z"/></g></svg>`;
+}
+(function(){ const s=$('#heroSlot'); s.innerHTML = HEADER_IMAGE_URL ? `<img class="hero-img" src="${esc(HEADER_IMAGE_URL)}" alt="">` : heroSVG();
+  const im=s.querySelector('img'); if(im) im.onerror=()=>{ s.innerHTML=heroSVG(); }; })();
+
+/* ---------- grid ---------- */
+const TYPE_ICON={romantic:'💌',funny:'😂',coupon:'🎟️'};
+const TYPE_LABEL={romantic:'💌 Carta',funny:'😂 Risas',coupon:'🎟️ Vale'};
+const grid=$('#grid');
+CALENDAR_DAYS.slice().sort((a,b)=>a.day-b.day).forEach(d=>{
+  const b=document.createElement('button'); b.className='door c'+(d.day%6); b.dataset.day=d.day;
+  b.innerHTML=`<span class="num">${d.day}</span><span class="ico"></span>`; grid.appendChild(b);
+});
+function waitVisible(){ return preview || new Date()<doorDate(1); }
+function refreshDoors(){
+  const up=unlockedUpTo(), opened=store.get('opened',[]), shield=shieldActive();
+  grid.querySelectorAll('.door').forEach(b=>{
+    const n=+b.dataset.day, d=CALENDAR_DAYS.find(x=>x.day===n), locked=n>up, isOp=!locked&&opened.includes(n)&&!preview;
+    b.classList.toggle('locked',locked); b.classList.toggle('opened',isOp); b.classList.toggle('available',!locked&&!isOp);
+    b.classList.toggle('shield',locked&&shield);
+    b.querySelector('.ico').textContent = locked?'🔒':(isOp?TYPE_ICON[d.type]:'🎁');
+    b.setAttribute('aria-label','Día '+n+(locked?' bloqueado':''));
+  });
+  const o=store.get('opened',[]).length, st=$('#status');
+  if(preview) st.textContent='🛠️ Modo Vista Previa activo: todo desbloqueado y sin notificaciones.';
+  else if(up===0){ const ms=doorDate(1)-new Date(); st.textContent=ms>0?'El día 1 abre en '+fmtRemaining(ms)+' 🎄':'Pronto…'; }
+  else st.textContent='Has abierto '+o+' de '+up+' ventanitas disponibles'+(up<24?' · próxima en '+fmtRemaining(doorDate(up+1)-new Date()):' · ¡ya están todas!');
+  $('#logroBadge').hidden = !store.get('logro',false);
+  $('#previewBtn').textContent='🛠️ Modo Vista Previa (Piojo): '+(preview?'ON':'OFF');
+  $('#resetBtn').hidden=!preview;
+  $('#wait').hidden=!waitVisible();
+  if(waitVisible()){ const u=WAIT_NOTES.filter(noteOpen).length; $('#notesCount').textContent=u+'/'+WAIT_NOTES.length; tickCountdown(); }
+}
+setInterval(refreshDoors,60000);
+
+/* ---------- cuenta regresiva ---------- */
+function tickCountdown(){
+  const el=$('#cd'); if(!el||$('#wait').hidden) return;
+  let ms=doorDate(1)-new Date();
+  if(ms<=0){ el.innerHTML='<b style="font-size:1.4rem">¡Hoy empieza!</b>'; return; }
+  const s=Math.floor(ms/1000), d=Math.floor(s/86400), h=Math.floor((s%86400)/3600), m=Math.floor((s%3600)/60), sc=s%60;
+  el.innerHTML=[[d,'días'],[h,'horas'],[m,'min'],[sc,'seg']].map(([v,l])=>`<div><b>${String(v).padStart(2,'0')}</b><span>${l}</span></div>`).join('');
+}
+setInterval(tickCountdown,1000);
+
+/* ---------- abrir día ---------- */
+function msgHTML(t){ return fill(t).split(/\n\s*\n/).map(p=>'<p>'+esc(p).replace(/\n/g,'<br>')+'</p>').join(''); }
+function openDay(n, ev){
+  const d=CALENDAR_DAYS.find(x=>x.day===n); if(!d) return;
+  const opened=store.get('opened',[]);
+  if(!preview && !opened.includes(n)){
+    opened.push(n); store.set('opened',opened);
+    notifyPiojo('🎄 Abrió el día '+n, 'Acaba de abrir el día '+n+': "'+d.title+'"');
+  }
+  const claimed=store.get('claimed',[]).includes(n);
+  const coupon = d.type==='coupon' ? (claimed?`<div class="stamp">✔ VALE RECLAMADO</div>`:`<button class="claim" id="claimBtn">🎟️ Reclamar vale</button>`) : '';
+  const link = d.link ? `<p><a class="lnk" href="${esc(d.link.url)}" target="_blank" rel="noopener">${esc(d.link.text)}</a></p>` : '';
+  const note = preview ? `<div class="pnote">📌 <b>Nota solo para Piojo:</b> ${esc(d.chatReference||'')}</div>` : '';
+  showModal(`<span class="tag ${d.type}">${TYPE_LABEL[d.type]} · Día ${d.day}</span><h2>${esc(d.title)}</h2><div class="media" id="mmedia"></div><div class="msg">${msgHTML(d.message)}</div>${link}${coupon}${note}`);
+  const m=$('#mmedia');
+  if(d.imageUrl){ const im=new Image(); im.className='photo'; im.alt=''; im.src=d.imageUrl; im.onerror=()=>{ m.innerHTML=art(d.type); }; m.appendChild(im); }
+  else m.innerHTML=art(d.type);
+  if(d.audioUrl){ const a=document.createElement('audio'); a.controls=true; a.preload='none'; a.src=d.audioUrl; m.appendChild(a);
+    a.addEventListener('play',()=>duck(true)); a.addEventListener('pause',()=>duck(false)); a.addEventListener('ended',()=>duck(false)); }
+  const cb=$('#claimBtn');
+  if(cb) cb.onclick=()=>{
+    if(!preview){ const c=store.get('claimed',[]); if(!c.includes(n)){ c.push(n); store.set('claimed',c);
+      notifyPiojo('🎟️ Vale reclamado','Reclamó: "'+d.title+'" (día '+n+')','high'); } }
+    cb.outerHTML='<div class="stamp">✔ VALE RECLAMADO'+(preview?' (vista previa)':'')+'</div>';
+    const r=$('.stamp').getBoundingClientRect(); burst(r.left+r.width/2,r.top,30);
+  };
+  const x=ev&&ev.clientX?ev.clientX:innerWidth/2, y=ev&&ev.clientY?ev.clientY:innerHeight/2; burst(x,y,28);
+  refreshDoors();
+}
+
+/* ---------- anti-desesperada ---------- */
+function shieldActive(){ const a=getAttempts(); return a>=5 && a<=7; }
+function dodge(el){
+  const r=el.getBoundingClientRect();
+  const tx=Math.random()*Math.max(10,innerWidth-r.width-20)+10, ty=Math.random()*Math.max(10,innerHeight-r.height-20)+10;
+  el._x=(el._x||0)+(tx-r.left); el._y=(el._y||0)+(ty-r.top);
+  el.classList.add('dodging'); el.style.transform=`translate(${el._x}px,${el._y}px) rotate(${(Math.random()*30-15)|0}deg)`;
+  clearTimeout(el._t); el._t=setTimeout(()=>{ el.style.transform=''; el._x=el._y=0; el.classList.remove('dodging'); },2600);
+}
+function teasingMessage(n,day){
+  const t=fmtRemaining(doorDate(day)-new Date());
+  return [
+   `Tranquila, nooboo, ni que por picarle más rápido se adelantara diciembre. Faltan ${t}.`,
+   `Snoopy está vigilando tus deditos desesperados 👀 Este día abre en ${t}.`,
+   `Babe, respira. Piojo programó el candado con amor (y con un poquito de maldad). Faltan ${t}.`,
+   `Cuarto intento… Piojo ya está sonriendo desde su pantalla, bonita 😏 Faltan ${t}.`][n-1];
+}
+function lockedTouch(el){
+  const day=+el.dataset.day, n=bumpAttempts();
+  if(n<=4){ el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); toast(teasingMessage(n,day)); }
+  else if(n<=7){
+    toast(n===5?'🛡️ ¡Escudo Anti-Curiosas activado! La casilla ya no se deja tocar.':n===6?'Te dije que se esconde. Piojo programó cada píxel 😌':'Una más y mejor no lo intentes… 🫣');
+    dodge(el); refreshDoors();
+  } else if(n<=9){ hackSequence(n); }
+  else{
+    if(!store.get('logro',false)) logroScreen();
+    else toast('Ya tienes el logro, desesperada oficial 🏆 Ahora solo toca esperar ('+fmtRemaining(doorDate(day)-new Date())+').');
+  }
+}
+grid.addEventListener('pointerdown',e=>{ const b=e.target.closest('.door'); if(b && b.classList.contains('locked')) lockedTouch(b); });
+grid.addEventListener('pointerover',e=>{
+  if(e.pointerType!=='mouse') return; const b=e.target.closest('.door.locked');
+  if(b && shieldActive() && !b.classList.contains('dodging')) dodge(b);
+});
+grid.addEventListener('click',e=>{
+  const b=e.target.closest('.door'); if(!b) return;
+  if(b.classList.contains('locked')){ if(e.detail===0) lockedTouch(b); return; }
+  openDay(+b.dataset.day,e);
+});
+function hackSequence(n){
+  openOverlay(`<div class="term" id="term"><div class="term-bar">● ● ●  sistema_piojo.exe</div><pre id="tlog"></pre><div class="prog"><i id="pbar"></i></div><div id="ptxt">0%</div></div>`);
+  const lines=['> Hackeando sistema de Piojo...','> Saltándose el candado del día...','> Sobornando al vigilante con galletas...','> Descifrando contraseña: ********', n===9?'> Segundo intento de hackeo (qué insistente)...':'> Casi, casi...'];
+  const log=$('#tlog'), bar=$('#pbar'), txt=$('#ptxt'); let p=0, i=0;
+  const iv=setInterval(()=>{
+    p=Math.min(99,p+Math.random()*9+3); bar.style.width=p+'%'; txt.textContent=Math.floor(p)+'%';
+    if(i<lines.length && p>i*20){ log.textContent+=lines[i++]+'\n'; }
+    if(p>=99){ clearInterval(iv); txt.textContent='99%'; setTimeout(()=>{ const t=$('#term'); if(t) t.classList.add('glitch'); setTimeout(()=>alarmScreen(),800); },1100); }
+  },110);
+}
+function alarmScreen(){
+  const k='alarm_'+todayKey();
+  if(!store.get(k,false)){ store.set(k,true); notifyPiojo('🚨 Alarma de curiosidad extrema','Se activó la pantalla de alarma: está intentando abrir un día bloqueado.','high'); }
+  openOverlay(`<div class="alarm"><div class="siren">🚨</div><h2>¡ALARMA DE CURIOSIDAD EXTREMA!</h2><p>Sabemos que tú mandas en la relación, bonita, pero aquí el calendario no cede.</p><button class="obtn" id="aok" disabled>Está bien, me porto… (3)</button></div>`);
+  let s=3; const b=$('#aok'); const iv=setInterval(()=>{ s--; if(s>0) b.textContent='Está bien, me porto… ('+s+')'; else{ clearInterval(iv); b.disabled=false; b.textContent='Está bien, me porto 😇'; } },1000);
+  b.onclick=closeOverlay;
+}
+function logroScreen(){
+  store.set('logro',true); refreshDoors();
+  notifyPiojo('🏆 Logro: La Más Desesperada del Universo','Desbloqueó el logro por picarle demasiadas veces a un día bloqueado.','high');
+  openOverlay(`<div class="logro"><div class="trophy">🏆</div><h2>¡Logro desbloqueado!</h2><h3>La Más Desesperada del Universo</h3>
+   <div class="multa"><b>📜 MULTA OFICIAL</b><p>Le debes <b>un beso a Piojo</b>… o pierdes tu derecho a veto en la siguiente peli o partida. (Elige con sabiduría, jefa.)</p></div>
+   <p>Para cerrar esta ventana, presiona el <b>Botón de la Paciencia</b> 5 veces, con calma. Sin prisa.</p>
+   <button class="obtn" id="pat">🧘 Botón de la Paciencia (0/5)</button><div class="patmsg" id="patmsg"></div></div>`);
+  let c=0,last=0; const b=$('#pat'), m=$('#patmsg');
+  b.onclick=()=>{
+    const now=Date.now();
+    if(c>0 && now-last<900){ c=0; m.textContent='¡Muy rápido! Respira, nooboo. Empezamos de nuevo.'; b.textContent='🧘 Botón de la Paciencia (0/5)'; last=now; return; }
+    c++; last=now; b.textContent='🧘 Botón de la Paciencia ('+c+'/5)'; m.textContent=['Bien… inhala.','Exhala…','Así, con calma…','Una más, casi eres zen.'][c-1]||'';
+    if(c>=5){ m.textContent='🕊️ Paz interior alcanzada.'; setTimeout(closeOverlay,900); }
+  };
+}
+
+/* ---------- SALA DE ESPERA: cartitas ---------- */
+function noteDate(n){ return new Date(YEAR,10,n.d,0,0,0); }
+function noteOpen(n){ return preview || new Date()>=noteDate(n); }
+$('#actNotes').onclick=()=>{
+  const html=WAIT_NOTES.map(n=>{
+    if(noteOpen(n)) return `<details class="note"><summary>💌 ${n.d} de nov · ${esc(n.title)}</summary><p>${esc(fill(n.text)).replace(/\n/g,'<br>')}</p></details>`;
+    return `<div class="note lock">🔒 Se abre el ${n.d} de noviembre</div>`;
+  }).join('');
+  showModal(`<span class="tag">💌 Cartitas de espera</span><h2>Mientras llega el día 1</h2>${html}`);
+  const first=$('#mbody details:last-of-type'); if(first) first.open=true;
+};
+
+/* ---------- SALA DE ESPERA: tocador ---------- */
+const SKIN=[['Porcelana','#fde0cf'],['Durazno','#f6cfae'],['Canela','#e2ad86'],['Moca','#b9805a']];
+const LIPS=[['Rosa chicle','#f27ea6'],['Coral','#f26b5b'],['Rojo cereza','#c4163a'],['Nude rosado','#d99aa0'],['Vino','#8e2347'],['Lila','#b57edc']];
+const BLUSH=[['Durazno','#ffb59a'],['Rosa suave','#ff9fb8'],['Fresa','#ff7f9a'],['Malva','#d9a0c8'],['Dorado','#f0b87a']];
+const SHADOW=[['Champagne','#f1d9a9'],['Rosa glitter','#f4a9c8'],['Lavanda','#c7a4e8'],['Verde pino','#7fae8f'],['Cobre','#c98a5a'],['Azul hielo','#a9d3f0']];
+function faceSVG(L){
+  const sk=SKIN[L.skin][1], lip=LIPS[L.lips][1], bl=BLUSH[L.blush][1], sh=SHADOW[L.shadow][1];
+  return `<svg viewBox="0 0 200 230" role="img" aria-label="Tu look" style="max-width:240px"><defs><filter id="bf"><feGaussianBlur stdDeviation="5"/></filter><filter id="sf"><feGaussianBlur stdDeviation="2"/></filter></defs>
+   <ellipse cx="100" cy="118" rx="84" ry="98" fill="#6b4234"/>
+   <rect x="82" y="165" width="36" height="50" rx="14" fill="${sk}"/><path d="M30 230 Q100 172 170 230Z" fill="#f9c9d6"/>
+   <ellipse cx="100" cy="110" rx="60" ry="72" fill="${sk}"/>
+   <path d="M38 110 C34 36 166 36 162 110 C146 78 118 66 100 66 C82 66 54 78 38 110Z" fill="#6b4234"/>
+   <g stroke="#4a2c22" stroke-width="3.5" fill="none" stroke-linecap="round"><path d="M63 92 Q78 84 92 91"/><path d="M108 91 Q122 84 137 92"/></g>
+   <ellipse cx="78" cy="104" rx="19" ry="9" fill="${sh}" opacity=".88" filter="url(#sf)"/><ellipse cx="122" cy="104" rx="19" ry="9" fill="${sh}" opacity=".88" filter="url(#sf)"/>
+   <g stroke="#3b2a2a" stroke-width="2.6" fill="none" stroke-linecap="round"><path d="M60 106 Q78 120 96 106"/><path d="M104 106 Q122 120 140 106"/></g>
+   ${L.liner?`<path d="M58 105 L49 98 M142 105 L151 98" stroke="#2b1c1c" stroke-width="3.2" stroke-linecap="round"/>`:''}
+   <circle cx="70" cy="136" r="17" fill="${bl}" opacity=".62" filter="url(#bf)"/><circle cx="130" cy="136" r="17" fill="${bl}" opacity=".62" filter="url(#bf)"/>
+   ${L.glow?`<ellipse cx="62" cy="122" rx="8" ry="3" fill="#fff" opacity=".75" filter="url(#sf)"/><ellipse cx="138" cy="122" rx="8" ry="3" fill="#fff" opacity=".75" filter="url(#sf)"/><path d="M100 98 v26" stroke="#fff" opacity=".4" stroke-width="4" stroke-linecap="round" filter="url(#sf)"/><text x="148" y="60" font-size="16">✨</text><text x="34" y="70" font-size="12">✨</text>`:''}
+   <path d="M96 130 Q100 135 104 130" stroke="#00000033" stroke-width="2" fill="none" stroke-linecap="round"/>
+   <path d="M82 152 Q91 144 100 149 Q109 144 118 152 Q110 166 100 167 Q90 166 82 152Z" fill="${lip}"/><ellipse cx="94" cy="156" rx="4" ry="1.6" fill="#fff" opacity=".55"/>
+   <circle cx="41" cy="128" r="4" fill="#ffe38a"/><circle cx="159" cy="128" r="4" fill="#ffe38a"/></svg>`;
+}
+$('#actTocador').onclick=()=>{
+  let L=Object.assign({skin:1,lips:0,blush:1,shadow:1,liner:true,glow:true}, store.get('look',{}));
+  const sw=(k,arr)=>arr.map((o,i)=>`<button class="sw" data-k="${k}" data-i="${i}" title="${o[0]}" style="background:${o[1]}"></button>`).join('');
+  showModal(`<span class="tag">💄 Mi tocador de Navidad</span><h2>Píntate a tu gusto</h2>
+   <div class="media" id="face"></div><div class="look" id="lookTxt"></div>
+   <div class="rows">
+    <div class="row"><b>Piel</b>${sw('skin',SKIN)}</div>
+    <div class="row"><b>Labios</b>${sw('lips',LIPS)}</div>
+    <div class="row"><b>Rubor</b>${sw('blush',BLUSH)}</div>
+    <div class="row"><b>Sombras</b>${sw('shadow',SHADOW)}</div>
+    <div class="row"><button class="pill" id="tLiner"></button><button class="pill" id="tGlow"></button></div>
+   </div>
+   <div class="btnrow"><button class="pill" id="tRand">🎲 Sorpréndeme</button><button class="pill main" id="tSave">💾 Guardar mi look</button></div>`);
+  const draw=()=>{
+    $('#face').innerHTML=faceSVG(L);
+    $('#lookTxt').textContent='Labios: '+LIPS[L.lips][0]+' · Rubor: '+BLUSH[L.blush][0]+' · Sombras: '+SHADOW[L.shadow][0];
+    document.querySelectorAll('#mbody .sw').forEach(b=>b.classList.toggle('on',L[b.dataset.k]===+b.dataset.i));
+    $('#tLiner').textContent='✒️ Delineado: '+(L.liner?'sí':'no'); $('#tGlow').textContent='✨ Iluminador: '+(L.glow?'sí':'no');
+  };
+  draw();
+  $('#mbody').onclick=e=>{
+    const s=e.target.closest('.sw');
+    if(s){ L[s.dataset.k]=+s.dataset.i; draw(); return; }
+    const id=e.target.id;
+    if(id==='tLiner'){ L.liner=!L.liner; draw(); }
+    else if(id==='tGlow'){ L.glow=!L.glow; draw(); }
+    else if(id==='tRand'){ L.skin=L.skin; L.lips=Math.floor(Math.random()*LIPS.length); L.blush=Math.floor(Math.random()*BLUSH.length); L.shadow=Math.floor(Math.random()*SHADOW.length); L.liner=Math.random()>.4; L.glow=Math.random()>.3; draw(); }
+    else if(id==='tSave'){ store.set('look',L); toast('Look guardado ✨ Se queda aquí para cuando vuelvas.'); burst(innerWidth/2,innerHeight/2,22);
+      notifyPiojo('💄 Guardó su look','Labios: '+LIPS[L.lips][0]+' · Rubor: '+BLUSH[L.blush][0]+' · Sombras: '+SHADOW[L.shadow][0],'low'); }
+  };
+};
+
+/* ---------- SALA DE ESPERA: juego ---------- */
+$('#actGame').onclick=()=>{
+  let best=store.get('gbest',0), score=0, left=30, run=false, spawnIv=null, timeIv=null;
+  const stop=()=>{ run=false; clearInterval(spawnIv); clearInterval(timeIv); };
+  showModal(`<span class="tag">🎁 Atrapa regalitos</span><h2>Toca lo que cae… ¡sin tocar al piojo!</h2>
+   <div class="gbar"><span>⭐ <b id="gscore">0</b></span><span>⏱️ <b id="gtime">30</b>s</span><span>🏆 <b id="gbest">${best}</b></span></div>
+   <div id="garena"></div><div class="gres" id="gres">Toca “Empezar” cuando estés lista.</div>
+   <div class="btnrow"><button class="pill main" id="gstart">▶ Empezar</button></div>`, stop);
+  function spawn(){
+    const a=$('#garena'); if(!a||!run) return; const r=Math.random(); let t;
+    if(r<.14) t={e:'🪲',v:-2}; else if(r<.24) t={e:'💎',v:3}; else t={e:rnd(['🎁','⭐','💄','🍬','🌻','🧸']),v:1};
+    const el=document.createElement('button'); el.className='gi'; el.textContent=t.e;
+    el.style.left=Math.random()*Math.max(10,a.clientWidth-46)+'px'; el.style.setProperty('--h',(a.clientHeight+70)+'px'); el.style.animationDuration=(2.2+Math.random()*1.8)+'s';
+    el.addEventListener('pointerdown',ev=>{
+      ev.preventDefault(); if(!run||el.dataset.d) return; el.dataset.d='1';
+      score=Math.max(0,score+t.v); $('#gscore').textContent=score;
+      el.style.animationPlayState='paused'; el.textContent=t.v>0?'+'+t.v:String(t.v); el.style.opacity='0'; el.style.scale='1.7'; setTimeout(()=>el.remove(),320);
+    });
+    el.addEventListener('animationend',()=>el.remove()); a.appendChild(el);
+  }
+  function end(){
+    stop(); const a=$('#garena'); if(a) a.innerHTML='';
+    const nb=score>best; if(nb){ best=score; store.set('gbest',best); const g=$('#gbest'); if(g) g.textContent=best; }
+    const msg=score>=30?'¡Eres una crack! 🏆':score>=18?'¡Muy bien, nooboo! ✨':'Buen intento, otra ronda 💗';
+    const rs=$('#gres'); if(rs) rs.textContent=score+' puntos · '+msg+(nb&&score>0?' · ¡nuevo récord!':'');
+    const b=$('#gstart'); if(b){ b.disabled=false; b.textContent='🔁 Otra vez'; }
+    if(nb && score>0) notifyPiojo('🎁 Récord en Atrapa regalitos','Hizo '+score+' puntos.','low');
+  }
+  $('#gstart').onclick=()=>{
+    stop(); score=0; left=30; run=true; $('#gscore').textContent='0'; $('#gtime').textContent='30'; $('#gres').textContent='¡Ahora!'; $('#garena').innerHTML='';
+    $('#gstart').disabled=true; spawn(); spawnIv=setInterval(spawn,430);
+    timeIv=setInterval(()=>{ left--; const t=$('#gtime'); if(t) t.textContent=left; if(left<=0) end(); },1000);
+  };
+};
+
+/* ---------- modo vista previa ---------- */
+$('#previewBtn').onclick=()=>{ preview=!preview; store.set('preview',preview); closeModal(); refreshDoors(); toast(preview?'Vista previa ON: todo abierto y sin notificaciones.':'Vista previa OFF: vuelve el candado real.'); };
+$('#resetBtn').onclick=()=>{ store.set('opened',[]); store.set('claimed',[]); store.set('att',{k:'',n:0}); sess.set('att',{k:'',n:0}); store.set('logro',false); store.set('visited',false); store.set('gbest',0); store.set('look',{}); refreshDoors(); toast('Progreso reiniciado en este dispositivo.'); };
+
+/* ---------- música ---------- */
+const bgm=$('#bgm'); let vol=.25, want=false, userPaused=false, mode=null, fileFailed=!AUDIO_NAVIDAD_URL, ducked=false;
+let ctx=null, master=null, loopT=null;
+const NOTE={D4:62,E4:64,Fs4:66,G4:67,A4:69,B4:71,C5:72,D5:74};
+const MEL=[['D4',1],['G4',1],['G4',.5],['A4',.5],['G4',.5],['Fs4',.5],['E4',1],['E4',1],['E4',1],['A4',1],['A4',.5],['B4',.5],['A4',.5],['G4',.5],['Fs4',1],['D4',1],['D4',1],['B4',1],['B4',.5],['C5',.5],['B4',.5],['A4',.5],['G4',1],['E4',1],['D4',.5],['D4',.5],['E4',1],['A4',1],['Fs4',1],['G4',2]];
+const BEAT=.62, hz=m=>440*Math.pow(2,(m-69)/12);
+function bell(t,f,len){
+  [[1,.5],[2,.18],[3,.07]].forEach(([mul,amp])=>{
+    const o=ctx.createOscillator(), g=ctx.createGain(); o.type='sine'; o.frequency.value=f*mul;
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(amp,t+.012); g.gain.exponentialRampToValueAtTime(.0008,t+len*1.8);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t+len*1.8+.1);
+  });
+}
+function schedLoop(){
+  if(!ctx) return; const t=ctx.currentTime+.15; let total=0;
+  MEL.forEach(([n,b])=>{ bell(t+total*BEAT,hz(NOTE[n]),b*BEAT); total+=b; });
+  [[0,55],[3,50],[6,52],[9,55],[12,50],[15,55],[18,52],[21,43],[24,52],[27,55]].forEach(([b,m])=>bell(t+b*BEAT,hz(m),2*BEAT));
+  loopT=setTimeout(schedLoop,(total*BEAT+2.2)*1000);
+}
+function startSynth(){
+  try{ if(ctx) return; const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return;
+    ctx=new AC(); master=ctx.createGain(); master.gain.value=vol*.6; master.connect(ctx.destination); if(ctx.state==='suspended') ctx.resume(); schedLoop(); mode='synth'; }catch(e){}
+}
+function stopSynth(){ clearTimeout(loopT); if(ctx){ try{ctx.close();}catch(e){} } ctx=null; master=null; }
+function setIcon(){ $('#pbtn').textContent=(want&&!ducked)?'⏸':'▶'; }
+async function startMusic(){
+  want=true; setIcon();
+  if(!fileFailed){
+    try{ if(!bgm.src) bgm.src=AUDIO_NAVIDAD_URL; bgm.volume=vol; await bgm.play(); mode='file'; return; }
+    catch(e){ fileFailed=true; }
+  }
+  startSynth();
+}
+function stopMusic(){ want=false; setIcon(); try{bgm.pause();}catch(e){} stopSynth(); }
+function duck(on){ ducked=on; if(on){ try{bgm.pause();}catch(e){} stopSynth(); setIcon(); } else if(want && !userPaused){ startMusic(); } }
+bgm.addEventListener('error',()=>{ fileFailed=true; if(want && mode!=='synth'){ startSynth(); } });
+$('#pbtn').onclick=e=>{ e.stopPropagation(); if(want){ userPaused=true; stopMusic(); } else { userPaused=false; startMusic(); } };
+$('#vol').addEventListener('input',e=>{ vol=e.target.value/100; bgm.volume=vol; if(master) master.gain.value=vol*.6; });
+bgm.volume=vol;
+function firstTouch(){ removeEventListener('pointerdown',firstTouch,true); removeEventListener('keydown',firstTouch,true); if(!userPaused && !want) startMusic(); }
+addEventListener('pointerdown',firstTouch,true); addEventListener('keydown',firstTouch,true);
+
+/* ---------- inicio ---------- */
+if(!preview && !store.get('visited',false)){ store.set('visited',true); notifyPiojo('👀 Abrió el calendario','Acaba de entrar al calendario por primera vez.','high'); }
+refreshDoors();
+})();
+</script>
+</body>
+</html>
