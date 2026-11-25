@@ -2,8 +2,11 @@ name: daily-deploy
 on:
   schedule:
     - cron: "10 6 * * *"
-    - cron: "40 6 * * *"   # respaldo
+    - cron: "40 6 * * *"
+    - cron: "10 7 * * *"
+    - cron: "10 9 * * *"
   workflow_dispatch:
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -12,12 +15,14 @@ jobs:
         run: curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
 
       - name: Avisar a Piojo
-        if: github.event.schedule != '40 6 * * *'
+        if: ${{ github.event.schedule == '10 6 * * *' || github.event_name == 'workflow_dispatch' }}
         run: |
-          DAY=$(TZ=America/Managua date +%-d); MONTH=$(TZ=America/Managua date +%-m)
-          if [ "$MONTH" = "12" ]; then MSG="Se publicó el día $DAY 🎄"; else MSG="Deploy diario ejecutado ($DAY/$MONTH)"; fi
+          DAY=$(TZ=America/Managua date +%-d)
+          MONTH=$(TZ=America/Managua date +%-m)
+          if [ "$MONTH" = "12" ]; then MSG="Se publico el dia $DAY"; else MSG="Deploy diario ejecutado ($DAY/$MONTH)"; fi
           curl -s -H "Title: Calendario" -d "$MSG" "https://ntfy.sh/${{ secrets.NTFY_TOPIC }}"
 
-      - name: Avisar si falló
-        if: failure()
-        run: curl -s -H "Title: Fallo el deploy" -H "Priority: high" -d "Falló la action, publica el día a mano ⚠️" "https://ntfy.sh/${{ secrets.NTFY_TOPIC }}"
+      - name: Avisar si fallo
+        if: ${{ failure() }}
+        run: |
+          curl -s -H "Title: Fallo el deploy" -H "Priority: high" -d "Fallo la action, publica el dia a mano" "https://ntfy.sh/${{ secrets.NTFY_TOPIC }}"
