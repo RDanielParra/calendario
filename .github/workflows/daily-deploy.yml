@@ -1,0 +1,13 @@
+# Redeploya cada día a las 00:10 hora Nicaragua (06:10 UTC) para publicar el día nuevo.
+# Secret necesario: VERCEL_DEPLOY_HOOK (Vercel → Settings → Git → Deploy Hooks)
+name: daily-deploy
+on:
+  schedule:
+    - cron: "10 6 * * *"
+    - cron: "40 6 * * *"   # respaldo por si el primero se retrasa
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
