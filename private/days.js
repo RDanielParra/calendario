@@ -20,6 +20,7 @@ const WAIT_NOTES = [
    ===================================================================== */
 const CALENDAR_DAYS = [
  { day:1, type:"romantic", title:"Primera ventanita",
+   interactive:{"kind": "scratch", "label": "Raspa aquí con tu dedito ✨"},
    chatReference:"Sin foto obligatoria. Idea opcional: tu foto con la vela, 31/10/2026 11:22 p. m. (Multimedia omitido).",
    message:`Hola, amor 🎄
 
@@ -39,6 +40,7 @@ Resultado: Piojo sobrevivió, las flores llegaron y tú "no sirves para las sorp
 Conclusión oficial: probar mi paciencia es tu deporte favorito, y yo siempre vuelvo a inscribirme.`, imageUrl:"", audioUrl:"" },
 
  { day:3, type:"romantic", title:"Flores amarillas",
+   interactive:{"kind": "quiz", "q": "Antes de abrir: ¿qué canción suena en la página de girasoles que te hice el 21 de septiembre?", "options": ["Vámonos a Marte – Kevin Kaarl", "Cinderella – Flores Amarillas", "Adore You – Harry Styles"], "answer": 1, "right": "¡Sí! Esa misma 🌻"},
    chatReference:"Fotos del ramo: 16/9/2026 7:08 p. m., 7:12 p. m. y 7:13 p. m. (Multimedia omitido). Página de girasoles: 21/9/2026 10:28 p. m.",
    message:`Ese 16 de septiembre no iba a dejar que no recibieras flores amarillas. Estaba feliz de haberlo logrado… aunque tú ya te habías dado cuenta de todo, porque a ti es imposible esconderte una sorpresa.
 
@@ -92,6 +94,7 @@ Tú eliges la película, los snacks tienen que ser dignos de una navidad cozy y 
 Si en medio se cuela un capítulo de anime en Crunchy, el vale se estira sin costo extra.`, imageUrl:"", audioUrl:"" },
 
  { day:9, type:"funny", title:"Misión secreta: buscar el token",
+   interactive:{"kind": "word", "hint": "Cofre cerrado 🔒 Escribe lo que andábamos buscando en Fortnite.", "hint2": "Es una palabra de 5 letras y casi te cuesta el chat.", "answer": ["token", "el token"]},
    chatReference:"Texto: 16/11/2026 2:35 p. m. a 2:36 p. m. ('¿te enojas si me toca el token?' / 'Te mato' / 'Te bloqueo desde ahorita').",
    message:`🔎 FORTNITE · 16 de noviembre, 2:35 p. m.
 
@@ -107,6 +110,7 @@ Recompensa: seguir vivo y con acceso a tu chat.
 Spoiler: si lo encuentro, juro que era para ti.`, imageUrl:"", audioUrl:"" },
 
  { day:10, type:"romantic", title:"Nuestras desveladas",
+   interactive:{"kind": "quiz", "q": "El 11 de agosto me dijiste algo sobre las llamadas para dormir… ¿qué fue?", "options": ["Que eran tu plan favorito del mundo", "Que no te gustaban las sleepy calls, tbh", "Que solo las querías los domingos"], "answer": 1, "right": "Y mírate ahora 😌"},
    chatReference:"Texto: 11/8/2026 11:42 p. m. a 11:47 p. m. ('no me gustan las sleepy calls, tbh'), 18/10/2026 2:13 a. m., 27/10/2026 3:56 a. m. ('a mis 6 am').",
    message:`El 11 de agosto me dijiste que no te gustaban las sleepy calls, tbh. Mírate ahora: "ya me iré a mimir, se me cierran los ojitos" a las 3 de la mañana y yo diciendo "solo cinco minutitos más".
 
@@ -115,6 +119,7 @@ Me encantan nuestras llamadas hasta las tantas, el ruido de tu teclado, tu risa 
 Y lo que más me gusta es que, aunque se nos cierren los ojitos, ninguno quiere colgar primero.`, imageUrl:"", audioUrl:"" },
 
  { day:11, type:"romantic", title:"Yo sé",
+   interactive:{"kind": "palette", "title": "Tu paleta de razones 💄 Toca cada color", "empty": "✨ elige uno", "items": [{"color": "#f4b6c2", "name": "Rosa palo", "text": "Tu risa, que se me queda en la cabeza todo el día."}, {"color": "#c1385a", "name": "Rojo cereza", "text": "Que mandes en todo y aun así me dejes ser Piojo."}, {"color": "#e8c39e", "name": "Dorado", "text": "Tus flores: las amarillas y las que todavía te debo."}, {"color": "#d9bff0", "name": "Lila", "text": "Nuestras desveladas, aunque se nos cierren los ojitos."}, {"color": "#e9c9b8", "name": "Nude", "text": "Que seas tan tú, con maquillaje o sin nada."}, {"color": "#ff9f8a", "name": "Coral", "text": "Que seas tan curiosa que no puedes esperar ni un día."}]},
    chatReference:"Texto: 8/10/2026 11:02 p. m. ('Yo sé, descansa'), 9/10/2026 10:05 p. m. ('Yo sé'), 21/11/2026 12:16 a. m. ('Yo también animal').",
    message:`Hay algo que hago todos los días: decirte "te amo". Y hay algo que haces tú: contestar "yo sé", como toda una jefa. 😌
 
@@ -131,6 +136,7 @@ Instrucciones: al empezar, di "canjeo el vale". Piojo pondrá cara de derrota di
 Válido una vez. No aplica si Piojo realmente tiene razón (broma, sí aplica).`, imageUrl:"", audioUrl:"" },
 
  { day:13, type:"romantic", title:"Tu risa",
+   interactive:{"kind": "scratch", "label": "Raspa para escuchar tu risa 😂"},
    chatReference:"Audios/videos con risa: 19/11/2026 12:29 a. m. (Video note omitted), 10/11/2026 7:46 a. m. (Video note omitted), 16/11/2026 8:29 a. m. (Video note omitted).",
    message:`Me encanta cómo te ríes. Aunque sea escrita, un "JDLAKAJA" tuyo ya me contagia la sonrisa; por llamada es peor: no puedo estar serio ni aunque quiera.
 
@@ -139,6 +145,7 @@ Tu risa es de las que se pegan: empiezas tú y terminamos los dos sin saber de q
 Gracias por reírte conmigo, babe (y de mí, que también cuenta).`, imageUrl:"", audioUrl:"" },
 
  { day:14, type:"funny", title:"Piojo, tu bloc de notas oficial",
+   interactive:{"kind":"game","game":"heladeria"},
    chatReference:"Texto: 29/9/2026 7:36 a. m. a 10:06 a. m. ('2 objetivos smart', 'bloc de notas', 'Canadá'). Capturas: 29/9/2026 9:55 a. m. (Multimedia omitido).",
    message:`📝 29 de septiembre, 7:36 a. m.: te mando "2 objetivos smart" sin contexto.
 Tú: "¿Y tengo cara de ser bloc de notas o qué?"
@@ -160,6 +167,7 @@ Pide lo que quieras (razonable… o no tanto). Piojo lo cumplirá sin "¿es en s
 Limitaciones: ninguna que no puedas convencerme de ignorar.`, imageUrl:"", audioUrl:"" },
 
  { day:16, type:"romantic", title:"Mi plantita",
+   interactive:{"kind": "word", "hint": "Cofre cerrado 🔒 ¿Qué dijiste una mañana que eras, y que requería atención? 🌱", "hint2": "Empieza con p y termina con 'ita'.", "answer": ["plantita", "una plantita", "soy una plantita"]},
    chatReference:"Texto: 10/11/2026 9:19 a. m. a 9:20 a. m. ('Ven y duerme en mi pecho', 'Soy una plantita, requiero atención'). Foto: 9:19 a. m. y 9:20 a. m. (Multimedia omitido).",
    message:`Una mañana me escribiste: "soy una plantita, requiero atención".
 
@@ -186,6 +194,7 @@ Este vale te da un ramo a pedido: lirios, girasoles o lo que se te antoje. Natur
 Lo del beso queda a tu criterio, jefa.`, imageUrl:"", audioUrl:"" },
 
  { day:19, type:"romantic", title:"Sin palabras",
+   interactive:{"kind": "timeline", "title": "Cosas que no se me olvidan", "items": [{"date": "16 de septiembre", "text": "El ramo de flores amarillas 🌻"}, {"date": "21 de septiembre", "text": "La página donde las flores explotan"}, {"date": "16 de octubre", "text": "Un poema"}, {"date": "18-19 de octubre", "text": "Los lirios"}, {"date": "24 de octubre", "text": "Alerta Amber (me asusté)"}, {"date": "3 de noviembre", "text": "Un mensaje largo y unas fotos"}, {"date": "Hoy", "text": "Y todavía falta lo mejor 💗"}]},
    chatReference:"Fotos: 3/11/2026 4:51 p. m. y 5:00 p. m. (Multimedia omitido). Texto largo: 3/11/2026 6:13 p. m. Poema: 16/10/2026 9:36 a. m. (fotos 9:25 a. m. y 9:26 a. m.).",
    message:`El 3 de noviembre te escribí "estoy sin palabras". Y luego, aun así, me salieron un montón.
 
@@ -226,6 +235,7 @@ Una madrugada te escribí: "daría lo que fuera por poder estar ahí a tu lado".
 Mientras llega ese día, nuestras pantallas hacen el trabajo. Y mi lugar favorito sigue teniendo tu nombre.`, imageUrl:"", audioUrl:"" },
 
  { day:24, type:"romantic", title:"Nochebuena",
+   interactive:{"kind": "layers", "button": "Sigue ♥"},
    chatReference:"Texto: 9/11/2026 12:17 a. m. ('TEY AAAMOOPR' transmitiendo), 7/11/2026 1:59 a. m. ('Adore You'), 27/10/2026 6:01 p. m., 21/11/2026 2:00 a. m., 23/11/2026 8:22 p. m. Foto final sugerida: la que más te guste de ustedes dos.",
    message:`Feliz Nochebuena, amor 🎄
 
